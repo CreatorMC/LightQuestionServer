@@ -3,24 +3,37 @@ package com.zyh.lightquestionserver.controller;
 import com.zyh.lightquestionserver.entity.User;
 import com.zyh.lightquestionserver.utils.JWTUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @RestController
 @RequestMapping("/User")
 public class UserController {
 
+    /**
+     * 登录
+     * @param user
+     * @return
+     */
     @PostMapping("/login")
     public User login(@RequestBody User user) {
-        log.info(user.toString());
         if("admin".equals(user.getUsername()) && "123".equals(user.getPassword())) {
             user.setToken(JWTUtil.createToken("", user.getUsername()));
-            log.info(user.toString());
             return user;
         }
         return null;
+    }
+
+    /**
+     * 检查Token是否有效
+     * @param request
+     * @return
+     */
+    @GetMapping("/checkToken")
+    public Boolean checkToken(HttpServletRequest request) {
+        String token = request.getHeader("token");
+        return JWTUtil.checkToken(token);
     }
 }

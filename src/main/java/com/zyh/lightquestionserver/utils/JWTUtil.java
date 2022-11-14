@@ -37,6 +37,11 @@ public class JWTUtil {
         return jwtToken;
     }
 
+    /**
+     * 检查Token是否有效
+     * @param token token
+     * @return bool
+     */
     public static boolean checkToken(String token){
         if (Objects.equals(token, "") || token == null){
             return false;
