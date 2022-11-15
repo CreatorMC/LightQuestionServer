@@ -88,7 +88,7 @@ public class SMSConfigServiceImpl implements SMSConfigService {
             return null;
         }
         if (sendSmsResponse != null && !sendSmsResponse.getBody().getCode().equals("OK")) {
-            log.error("调用阿里云短信服务发送短信验证码失败 {}", sendSmsResponse);
+            log.error("调用阿里云短信服务发送短信验证码失败 {}", sendSmsResponse.getBody().getCode());
             return null;
         }
         saveSMVCode(phoneNumber, verificationCode);
