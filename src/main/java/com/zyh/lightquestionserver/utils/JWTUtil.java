@@ -1,8 +1,8 @@
 package com.zyh.lightquestionserver.utils;
 
+import com.zyh.lightquestionserver.entity.User;
 import io.jsonwebtoken.*;
 
-import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -13,23 +13,21 @@ public class JWTUtil {
 
     /**
      * 创建Token
-     * @param role 载荷内容
-     * @param name 用户名
+     * @param user 载荷内容
      * @return jwtToken
      */
-    public static String createToken(String role, String name) {
+    public static String createToken(User user) {
         JwtBuilder jwtBuilder = Jwts.builder();
         String jwtToken = jwtBuilder
                 //header    头部
                 .setHeaderParam("typ", "JWT")
                 .setHeaderParam("alg", "HS256")
                 //payload   载荷
-                .claim("name",name)
-                .claim("role",role)
+                .claim("id",user.getId())
                 //主题
                 .setSubject("admin")
                 //有效期
-                .setExpiration(new Date(System.currentTimeMillis() + time))
+//                .setExpiration(new Date(System.currentTimeMillis() + time))
                 .setId(UUID.randomUUID().toString())
                 //signature签名
                 .signWith(SignatureAlgorithm.HS256,signature)
@@ -40,20 +38,21 @@ public class JWTUtil {
     /**
      * 检查Token是否有效
      * @param token token
-     * @return bool
+     * @return uerId 用户ID
      */
-    public static boolean checkToken(String token){
+    public static String checkToken(String token){
         if (Objects.equals(token, "") || token == null){
-            return false;
+            return null;
         }
 
+        Jws<Claims> claimsJws = null;
         try {
             //解析后拿到存有token信息的集合
-            Jws<Claims> claimsJws = Jwts.parser().setSigningKey(signature).parseClaimsJws(token);
+            claimsJws = Jwts.parser().setSigningKey(signature).parseClaimsJws(token);
         } catch (Exception e) {
-            return false;
+            return null;
         }
-        return true;
+        return (String) claimsJws.getBody().get("id");
     }
 
 }
