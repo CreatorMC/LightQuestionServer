@@ -1,19 +1,20 @@
-package com.zyh.lightquestionserver.utils;
+package com.zyh.lightquestionserver.server.impl;
 
+import com.zyh.lightquestionserver.server.RedisService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
-@Component
-public class RedisUtil{
+@Service
+public class RedisServiceImpl implements RedisService {
     /**
      * 过期时长
      */
@@ -34,23 +35,33 @@ public class RedisUtil{
         valueOperations = redisTemplate.opsForValue();
     }
 
+    @Override
     public void set(String key, String value) {
         valueOperations.set(key, value, DURATION, TimeUnit.MILLISECONDS);
         log.info("key={}, value is: {} into redis cache", key, value);
     }
 
+    @Override
+    public void set(String key, String value, Long time) {
+        valueOperations.set(key, value, time, TimeUnit.MILLISECONDS);
+        log.info("key={}, value is: {} into redis cache", key, value);
+    }
+
+    @Override
     public String get(String key) {
         String redisValue = valueOperations.get(key);
         log.info("get from redis, value is: {}", redisValue);
         return redisValue;
     }
 
+    @Override
     public boolean delete(String key) {
         boolean result = redisTemplate.delete(key);
         log.info("delete from redis, key is: {}", key);
         return result;
     }
 
+    @Override
     public Long getExpireTime(String key) {
         return valueOperations.getOperations().getExpire(key);
     }

@@ -1,8 +1,10 @@
 package com.zyh.lightquestionserver.controller;
 
 import com.zyh.lightquestionserver.entity.User;
+import com.zyh.lightquestionserver.server.RedisService;
 import com.zyh.lightquestionserver.utils.JWTUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/User")
 public class UserController {
+
+    @Autowired
+    RedisService redisService;
 
     /**
      * 登录
