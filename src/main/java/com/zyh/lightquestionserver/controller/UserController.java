@@ -67,7 +67,7 @@ public class UserController {
             List<User> users = userDao.selectByMap(tempMap);
             String token = JWTUtil.createToken(users.get(0));
             //key：电话号码  value：Token
-            redisService.set(map.get("phone"), token, 1000 * 60 * 60L);
+            redisService.set(map.get("phone"), token);
             UserClient userClient = new UserClient();
             userClient.setUsername(users.get(0).getUsername());
             userClient.setDate(users.get(0).getDate());
