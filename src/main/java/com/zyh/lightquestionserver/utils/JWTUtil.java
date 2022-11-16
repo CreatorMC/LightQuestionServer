@@ -26,7 +26,7 @@ public class JWTUtil {
                 .claim("id",user.getId())
                 //主题
                 .setSubject("admin")
-                //有效期
+                //有效期（现在被Redis管理，token中不需要设置有效期）
 //                .setExpiration(new Date(System.currentTimeMillis() + time))
                 .setId(UUID.randomUUID().toString())
                 //signature签名

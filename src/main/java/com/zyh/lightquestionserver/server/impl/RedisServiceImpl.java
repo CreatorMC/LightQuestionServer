@@ -18,7 +18,7 @@ public class RedisServiceImpl implements RedisService {
     /**
      * 过期时长
      */
-    private final Long DURATION = 1 * 24 * 60 * 60 * 1000L;
+    private final Long DURATION = 7 * 24 * 60 * 60 * 1000L;     //7天
 
     @Resource
     private RedisTemplate redisTemplate;
