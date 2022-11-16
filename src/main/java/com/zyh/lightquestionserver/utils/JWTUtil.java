@@ -23,7 +23,7 @@ public class JWTUtil {
                 .setHeaderParam("typ", "JWT")
                 .setHeaderParam("alg", "HS256")
                 //payload   载荷
-                .claim("id",user.getId())
+                .claim("phone",user.getPhone())
                 //主题
                 .setSubject("admin")
                 //有效期（现在被Redis管理，token中不需要设置有效期）
