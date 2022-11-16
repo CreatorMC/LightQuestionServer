@@ -38,7 +38,7 @@ public class JWTUtil {
     /**
      * 检查Token是否有效
      * @param token token
-     * @return uerId 用户ID
+     * @return phone 用户电话
      */
     public static String checkToken(String token){
         if (Objects.equals(token, "") || token == null){
@@ -52,7 +52,7 @@ public class JWTUtil {
         } catch (Exception e) {
             return null;
         }
-        return (String) claimsJws.getBody().get("id");
+        return (String) claimsJws.getBody().get("phone");
     }
 
 }

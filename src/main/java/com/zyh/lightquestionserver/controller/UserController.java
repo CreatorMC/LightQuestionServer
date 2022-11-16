@@ -3,6 +3,7 @@ package com.zyh.lightquestionserver.controller;
 import com.zyh.lightquestionserver.dao.UserDao;
 import com.zyh.lightquestionserver.entity.Result;
 import com.zyh.lightquestionserver.entity.User;
+import com.zyh.lightquestionserver.entity.UserClient;
 import com.zyh.lightquestionserver.server.RedisService;
 import com.zyh.lightquestionserver.server.SMSConfigService;
 import com.zyh.lightquestionserver.utils.JWTUtil;
@@ -49,6 +50,11 @@ public class UserController {
         return user;
     }
 
+    /**
+     * 检查验证码
+     * @param map
+     * @return
+     */
     @PostMapping("/login/code")
     public Object loginCode(@RequestBody Map<String,String> map) {
         if(redisService.get(map.get("phone")) == null) {
@@ -61,8 +67,12 @@ public class UserController {
             List<User> users = userDao.selectByMap(tempMap);
             String token = JWTUtil.createToken(users.get(0));
             //key：电话号码  value：Token
-            redisService.set(map.get("phone"), token);
-            return token;
+            redisService.set(map.get("phone"), token, 1000 * 60 * 60L);
+            UserClient userClient = new UserClient();
+            userClient.setUsername(users.get(0).getUsername());
+            userClient.setDate(users.get(0).getDate());
+            userClient.setToken(token);
+            return userClient;
         } else {
             //验证码不一致
             return 2;
