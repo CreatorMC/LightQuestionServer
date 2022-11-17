@@ -71,6 +71,7 @@ public class UserController {
             UserClient userClient = new UserClient();
             userClient.setUsername(users.get(0).getUsername());
             userClient.setDate(users.get(0).getDate());
+            userClient.setId(users.get(0).getId());
             userClient.setToken(token);
             return userClient;
         } else {
