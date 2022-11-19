@@ -7,6 +7,7 @@ import com.zyh.lightquestionserver.server.RedisService;
 import com.zyh.lightquestionserver.server.SMSConfigService;
 import com.zyh.lightquestionserver.server.UserServer;
 import com.zyh.lightquestionserver.utils.JWTUtil;
+import com.zyh.lightquestionserver.utils.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,7 @@ public class UserServerImpl implements UserServer {
         if (users.size() == 0) {
             //查询失败，说明用户尚未注册
             //注册
+            user.setUsername("QTX"+RandomUtil.randomDigitNumber(10));
             user.setDate(new Date());   //设置注册时间
             userDao.insert(user);       //插入
         }
