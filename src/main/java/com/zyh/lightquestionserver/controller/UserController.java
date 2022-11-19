@@ -1,20 +1,12 @@
 package com.zyh.lightquestionserver.controller;
 
-import com.zyh.lightquestionserver.dao.UserDao;
 import com.zyh.lightquestionserver.entity.Result;
 import com.zyh.lightquestionserver.entity.User;
-import com.zyh.lightquestionserver.entity.UserClient;
-import com.zyh.lightquestionserver.server.RedisService;
-import com.zyh.lightquestionserver.server.SMSConfigService;
 import com.zyh.lightquestionserver.server.UserServer;
-import com.zyh.lightquestionserver.utils.JWTUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -22,12 +14,6 @@ import java.util.Map;
 @RequestMapping("/User")
 public class UserController {
 
-    @Autowired
-    RedisService redisService;
-    @Autowired
-    UserDao userDao;
-    @Autowired
-    SMSConfigService smsConfigService;
     @Autowired
     UserServer userServer;
 

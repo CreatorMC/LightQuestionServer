@@ -4,8 +4,6 @@ import com.aliyun.dysmsapi20170525.Client;
 import com.aliyun.dysmsapi20170525.models.SendSmsRequest;
 import com.aliyun.dysmsapi20170525.models.SendSmsResponse;
 import com.aliyun.teautil.models.RuntimeOptions;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zyh.lightquestionserver.config.ALiYunSMSConfig;
 import com.zyh.lightquestionserver.config.SMVCodeConfig;
 import com.zyh.lightquestionserver.server.RedisService;
@@ -14,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.Random;
 
 @Slf4j
@@ -57,42 +54,44 @@ public class SMSConfigServiceImpl implements SMSConfigService {
      * @return
      */
     public SendSmsResponse sendSMVCode(String phoneNumber) {
-        //生成六位手机验证码
-        String verificationCode = this.randomCode();
-        //拼接阿里云短信模板变量对应的实际值"{\"code\":\"+verificationCode+\"}";
-        HashMap hashMap = new HashMap();
-        hashMap.put("code", verificationCode);
-        String templateParam = null;
-        try {
-            templateParam = new ObjectMapper().writeValueAsString(hashMap);
-        } catch (JsonProcessingException e) {
-            return null;
-        }
-        //配置发送阿里云短信的请求体
-        SendSmsRequest sendSmsRequest = new SendSmsRequest();
-        //设置短信签名名称
-        sendSmsRequest.setSignName(smvCodeConfig.getSignName());
-        //设置短信模板Code
-        sendSmsRequest.setTemplateCode(smvCodeConfig.getTemplateCode());
-        //设置发送短信的手机号
-        sendSmsRequest.setPhoneNumbers(phoneNumber);
-        //设置短信模板变量对应的实际值
-        sendSmsRequest.setTemplateParam(templateParam);
-        //发送短信响应体
-        SendSmsResponse sendSmsResponse = null;
-        try {
-            //调用阿里云短信服务发送短信验证码
-            sendSmsResponse = this.sendShortMessage(sendSmsRequest);
-        } catch (Exception e) {
-            log.error("调用阿里云短信服务发送短信验证码接口失败！", e);
-            return null;
-        }
-        if (sendSmsResponse != null && !sendSmsResponse.getBody().getCode().equals("OK")) {
-            log.error("调用阿里云短信服务发送短信验证码失败 {}", sendSmsResponse.getBody().getCode());
-            return null;
-        }
+        //TODO 测试阶段固定测试验证码
+        String verificationCode = "123456";
+//        //生成六位手机验证码
+//        String verificationCode = this.randomCode();
+//        //拼接阿里云短信模板变量对应的实际值"{\"code\":\"+verificationCode+\"}";
+//        HashMap hashMap = new HashMap();
+//        hashMap.put("code", verificationCode);
+//        String templateParam = null;
+//        try {
+//            templateParam = new ObjectMapper().writeValueAsString(hashMap);
+//        } catch (JsonProcessingException e) {
+//            return null;
+//        }
+//        //配置发送阿里云短信的请求体
+//        SendSmsRequest sendSmsRequest = new SendSmsRequest();
+//        //设置短信签名名称
+//        sendSmsRequest.setSignName(smvCodeConfig.getSignName());
+//        //设置短信模板Code
+//        sendSmsRequest.setTemplateCode(smvCodeConfig.getTemplateCode());
+//        //设置发送短信的手机号
+//        sendSmsRequest.setPhoneNumbers(phoneNumber);
+//        //设置短信模板变量对应的实际值
+//        sendSmsRequest.setTemplateParam(templateParam);
+//        //发送短信响应体
+//        SendSmsResponse sendSmsResponse = null;
+//        try {
+//            //调用阿里云短信服务发送短信验证码
+//            sendSmsResponse = this.sendShortMessage(sendSmsRequest);
+//        } catch (Exception e) {
+//            log.error("调用阿里云短信服务发送短信验证码接口失败！", e);
+//            return null;
+//        }
+//        if (sendSmsResponse != null && !sendSmsResponse.getBody().getCode().equals("OK")) {
+//            log.error("调用阿里云短信服务发送短信验证码失败 {}", sendSmsResponse.getBody().getCode());
+//            return null;
+//        }
         saveSMVCode(phoneNumber, verificationCode);
-        return sendSmsResponse;
+        return null;
     }
 
     /**
