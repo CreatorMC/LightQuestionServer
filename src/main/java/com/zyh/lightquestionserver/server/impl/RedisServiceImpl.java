@@ -38,26 +38,26 @@ public class RedisServiceImpl implements RedisService {
     @Override
     public void set(String key, String value) {
         valueOperations.set(key, value, DURATION, TimeUnit.MILLISECONDS);
-        log.info("key={}, value is: {} into redis cache", key, value);
+//        log.info("key={}, value is: {} into redis cache", key, value);
     }
 
     @Override
     public void set(String key, String value, Long time) {
         valueOperations.set(key, value, time, TimeUnit.MILLISECONDS);
-        log.info("key={}, value is: {} into redis cache", key, value);
+//        log.info("key={}, value is: {} into redis cache", key, value);
     }
 
     @Override
     public String get(String key) {
         String redisValue = valueOperations.get(key);
-        log.info("get from redis, value is: {}", redisValue);
+//        log.info("get from redis, value is: {}", redisValue);
         return redisValue;
     }
 
     @Override
     public boolean delete(String key) {
         boolean result = redisTemplate.delete(key);
-        log.info("delete from redis, key is: {}", key);
+//        log.info("delete from redis, key is: {}", key);
         return result;
     }
 

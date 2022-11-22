@@ -27,7 +27,8 @@ public class UserInterceptor implements HandlerInterceptor {
         String token = request.getHeader("Authorization");
         String userPhone = JWTUtil.checkToken(token);
         //1.判断请求是否有效
-        if (userPhone == null || redisService.get(userPhone) == null || !redisService.get(userPhone).equals(token)) {
+        String phone = redisService.get(userPhone);
+        if (userPhone == null || phone == null || !phone.equals(token)) {
             return false;
         }
 
