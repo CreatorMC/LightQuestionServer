@@ -13,4 +13,6 @@ public class QuestionBank {
     private String label;
     private String tablename;
     private String icon;
+    private Integer totalScore;
+    private Integer totalNum;
 }
