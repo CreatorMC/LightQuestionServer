@@ -1,7 +1,9 @@
 package com.zyh.lightquestionserver.controller;
 
+import com.zyh.lightquestionserver.dao.UserFeedBackDao;
 import com.zyh.lightquestionserver.entity.Result;
 import com.zyh.lightquestionserver.entity.User;
+import com.zyh.lightquestionserver.entity.UserFeedBack;
 import com.zyh.lightquestionserver.server.UserServer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,8 @@ public class UserController {
 
     @Autowired
     UserServer userServer;
+    @Autowired
+    UserFeedBackDao userFeedBackDao;
 
     /**
      * 登录
@@ -43,6 +47,17 @@ public class UserController {
      */
     @GetMapping("/check")
     public Result check() {
+        return Result.returnSuccessResult();
+    }
+
+    /**
+     * 用户反馈
+     * @param userFeedBack 反馈信息
+     * @return Result
+     */
+    @PostMapping("/feedback")
+    public Result feedBack(@RequestBody UserFeedBack userFeedBack) {
+        userFeedBackDao.insert(userFeedBack);
         return Result.returnSuccessResult();
     }
 
