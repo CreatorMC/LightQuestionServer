@@ -12,4 +12,5 @@ public class UserFeedBack {
     private Integer id;             //自增ID
     private Long userid;            //用户ID
     private String content;         //反馈的内容
+    private String contact;         //联系方式
 }
