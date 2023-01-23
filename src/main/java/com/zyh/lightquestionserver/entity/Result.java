@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class Result {
     private Boolean result;
+    private String resultString;
 
     /**
      * 返回布尔型结果

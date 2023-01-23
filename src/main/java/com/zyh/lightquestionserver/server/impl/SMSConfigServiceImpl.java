@@ -50,10 +50,10 @@ public class SMSConfigServiceImpl implements SMSConfigService {
     /**
      * 发送短信验证码
      *
-     * @param phoneNumber 手机号
+     * @param id 手机号
      * @return
      */
-    public SendSmsResponse sendSMVCode(String phoneNumber) {
+    public SendSmsResponse sendSMVCode(String id) {
         //TODO 测试阶段固定测试验证码
         String verificationCode = "123456";
 //        //生成六位手机验证码
@@ -90,17 +90,17 @@ public class SMSConfigServiceImpl implements SMSConfigService {
 //            log.error("调用阿里云短信服务发送短信验证码失败 {}", sendSmsResponse.getBody().getCode());
 //            return null;
 //        }
-        saveSMVCode(phoneNumber, verificationCode);
+        saveSMVCode(id, verificationCode);
         return null;
     }
 
     /**
      * 保存到Redis
-     * @param phoneNumber
+     * @param id
      * @param verificationCode
      */
-    public void saveSMVCode (String phoneNumber, String verificationCode) {
-        redisService.set(phoneNumber, verificationCode, 5*60*1000L);
+    public void saveSMVCode (String id, String verificationCode) {
+        redisService.set(id, verificationCode, 5*60*1000L);
     }
 
     /**

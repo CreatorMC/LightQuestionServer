@@ -4,6 +4,6 @@ import com.aliyun.dysmsapi20170525.models.SendSmsRequest;
 import com.aliyun.dysmsapi20170525.models.SendSmsResponse;
 
 public interface SMSConfigService {
-    SendSmsResponse sendSMVCode(String phoneNumber);
+    SendSmsResponse sendSMVCode(String id);
     SendSmsResponse sendShortMessage(SendSmsRequest sendSmsRequest) throws Exception;
 }

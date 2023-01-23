@@ -1,14 +1,13 @@
 package com.zyh.lightquestionserver.controller;
 
 import com.zyh.lightquestionserver.dao.UserFeedBackDao;
-import com.zyh.lightquestionserver.entity.Result;
-import com.zyh.lightquestionserver.entity.User;
-import com.zyh.lightquestionserver.entity.UserFeedBack;
+import com.zyh.lightquestionserver.entity.*;
 import com.zyh.lightquestionserver.server.UserServer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
@@ -24,21 +23,62 @@ public class UserController {
     /**
      * 登录
      * @param user
-     * @return
+     * @return {
+     *     uuid: "UUID"
+     * }
      */
     @PostMapping("/login")
-    public User login(@RequestBody User user) {
-        return userServer.loginServer(user);
+    public Map<String, String> login(@RequestBody User user) {
+        return new HashMap<String, String>(){{
+            put("uuid", userServer.loginServer(user));
+        }};
+    }
+
+    /**
+     * 邮箱登录
+     * @param userEmailRegister
+     * @return UserClient / null
+     */
+    @PostMapping("/loginEmail")
+    public UserClient loginEmail(@RequestBody UserEmailRegister userEmailRegister) {
+        return userServer.loginEmailServer(userEmailRegister);
+    }
+
+    /**
+     * 邮箱注册
+     * @param userEmailRegister
+     * @return UUID: 成功发送邮件, "-1": 邮箱已被注册, "-2": 邮件发送异常
+     */
+    @PostMapping("/register")
+    public Map<String, String> register(@RequestBody UserEmailRegister userEmailRegister) {
+        String uuid = userServer.sendEmailVCode(userEmailRegister);
+        Map<String, String> map = new HashMap<>();
+        map.put("uuid", uuid);
+        return map;
+    }
+
+    /**
+     * 验证邮箱验证码
+     * @param userEmailRegisterVCode
+     * @return Result {
+     *     resultString: "0": 成功 "-1": 验证码不对 "-2": 验证码过期
+     * }
+     */
+    @PostMapping("/registerCode")
+    public Result registerCode(@RequestBody UserEmailRegisterVCode userEmailRegisterVCode) {
+        Result result = new Result();
+        result.setResultString(userServer.registerEmail(userEmailRegisterVCode));
+        return result;
     }
 
     /**
      * 检查验证码
-     * @param map
+     * @param userVCode
      * @return
      */
     @PostMapping("/login/code")
-    public Object loginCode(@RequestBody Map<String,String> map) {
-        return userServer.loginCodeServer(map);
+    public Object loginCode(@RequestBody UserVCode userVCode) {
+        return userServer.loginCodeServer(userVCode);
     }
 
     /**

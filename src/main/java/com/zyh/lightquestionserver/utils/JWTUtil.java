@@ -23,7 +23,7 @@ public class JWTUtil {
                 .setHeaderParam("typ", "JWT")
                 .setHeaderParam("alg", "HS256")
                 //payload   载荷
-                .claim("phone",user.getPhone())
+                .claim("id",String.valueOf(user.getId()))
                 //主题
                 .setSubject("admin")
                 //有效期（现在被Redis管理，token中不需要设置有效期）
@@ -38,7 +38,7 @@ public class JWTUtil {
     /**
      * 检查Token是否有效
      * @param token token
-     * @return phone 用户电话
+     * @return id   用户ID
      */
     public static String checkToken(String token){
         if (Objects.equals(token, "") || token == null){
@@ -52,7 +52,7 @@ public class JWTUtil {
         } catch (Exception e) {
             return null;
         }
-        return (String) claimsJws.getBody().get("phone");
+        return (String) claimsJws.getBody().get("id");
     }
 
 }

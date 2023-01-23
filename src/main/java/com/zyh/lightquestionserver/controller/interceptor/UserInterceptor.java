@@ -25,22 +25,22 @@ public class UserInterceptor implements HandlerInterceptor {
             return true;
         }
         String token = request.getHeader("Authorization");
-        String userPhone = JWTUtil.checkToken(token);
+        String id = JWTUtil.checkToken(token);
         //1.判断请求是否有效
-        if(userPhone == null) {
+        if(id == null) {
             //前端的localStorage里没有用户信息
             response.sendError(403);
             return false;
         }
-        String phone = redisService.get(userPhone);
-        if (phone == null || !phone.equals(token)) {
+        String value = redisService.get(id);
+        if (value == null || !value.equals(token)) {
             response.sendError(403);
             return false;
         }
 
         //2.判断是否需要续期，离过期时间只有一天时才更新
-        if (redisService.getExpireTime(userPhone) < 60 * 60 * 24) {
-            redisService.set(userPhone, token);
+        if (redisService.getExpireTime(id) < 60 * 60 * 24) {
+            redisService.set(id, token);
         }
         return true;
     }
