@@ -9,6 +9,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
@@ -21,10 +22,11 @@ import java.util.List;
 @Component
 public class DecryptAspect {
 
+    @Qualifier("standardPBEStringEncryptor")
     @Autowired
     private StringEncryptor stringEncryptor;
 
-    @Pointcut("@annotation(com.elegant.dotest.aop.annotation.NeedDecrypt)")
+    @Pointcut("@annotation(com.zyh.lightquestionserver.annotation.NeedDecrypt)")
     public void pointCut() {
     }
 

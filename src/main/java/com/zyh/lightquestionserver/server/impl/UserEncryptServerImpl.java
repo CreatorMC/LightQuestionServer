@@ -1,5 +1,6 @@
 package com.zyh.lightquestionserver.server.impl;
 
+import com.zyh.lightquestionserver.annotation.NeedDecrypt;
 import com.zyh.lightquestionserver.annotation.NeedEncrypt;
 import com.zyh.lightquestionserver.dao.UserDao;
 import com.zyh.lightquestionserver.entity.User;
@@ -43,5 +44,11 @@ public class UserEncryptServerImpl implements UserEncryptServer {
     @Override
     public UserEmailRegister encryptUser(UserEmailRegister userEmailRegister) {
         return userEmailRegister;
+    }
+
+    @NeedDecrypt
+    @Override
+    public User decryptUser(User user) {
+        return user;
     }
 }

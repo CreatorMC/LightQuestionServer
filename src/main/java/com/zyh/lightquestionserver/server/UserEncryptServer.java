@@ -9,4 +9,5 @@ public interface UserEncryptServer {
     public User encryptUser(User user);
     UserVCode encryptUser(UserVCode user);
     UserEmailRegister encryptUser(UserEmailRegister userEmailRegister);
+    User decryptUser(User user);
 }
