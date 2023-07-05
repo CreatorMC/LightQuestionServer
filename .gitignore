@@ -6,6 +6,7 @@ target/
 src/main/resources/application.yml
 src/main/resources/pfx-password.txt
 src/main/resources/8835910_qingtixia.top.pfx
+src/test/java/com/zyh/lightquestionserver/LightQuestionServerApplicationTests.java
 
 ### STS ###
 .apt_generated
